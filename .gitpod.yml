@@ -4,10 +4,20 @@ tasks:
   - init: ./mvnw clean install -U -DskipTests
     command: ./mvnw spring-boot:run
     name: Run PetClinic app
+  - name: Mysql server
+    init: |
+          sudo apt update && 
+          sudo apt install -y mysql-server
+    command: >
+          sudo service mysql start && 
+          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'petclinic';"
+
 
 ports:
   - port: 8080
     onOpen: open-preview
+  - port: 3306
+    onOpen: ignore
 
 vscode:
   extensions:
@@ -20,3 +30,5 @@ jetbrains:
       - com.haulmont.jpab
     prebuilds:
       version: both
+
+
