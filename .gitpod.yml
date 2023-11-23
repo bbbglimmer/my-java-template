@@ -1,16 +1,15 @@
 image: gitpod/workspace-full
 
 tasks:
-  - init: ./mvnw clean install -U -DskipTests
-    command: ./mvnw spring-boot:run
-    name: Run PetClinic app
-  - name: Mysql server
+  - name: Mysql server and Run PetClinic app
     init: |
-          sudo apt update && 
-          sudo apt install -y mysql-server
-    command: >
-          sudo service mysql start && 
-          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'petclinic';"
+          sudo apt update &&
+          sudo apt install -y mysql-server &&
+          sudo service mysql start &&
+          sudo sleep 5 &&
+          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'petclinic';" &&
+          ./mvnw clean install -U -DskipTests
+    command: ./mvnw spring-boot:run
 
 
 ports:
